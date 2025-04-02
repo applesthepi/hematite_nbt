@@ -1,4 +1,5 @@
 use crate::Map;
+use std::collections::hash_map::IntoIter;
 use std::fmt;
 use std::io;
 use std::ops::Index;
@@ -184,6 +185,15 @@ impl Blob {
                 .map(Value::size_of_compound_entry)
                 .sum::<usize>()
     }
+}
+
+impl IntoIterator for Blob {
+	type Item = (String, Value);
+	type IntoIter = IntoIter<String, Value>;
+
+	fn into_iter(self) -> Self::IntoIter {
+		self.content.into_iter()
+	}
 }
 
 impl<'a> Index<&'a str> for Blob {
